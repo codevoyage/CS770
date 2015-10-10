@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # # photo_time
@@ -60,17 +59,16 @@ def SecantMethod(x0,x1,fcn):
 # Bisection Method
 def BisectionMethod(x0,x1,fcn,E):
     #stopping Criterion
-    tol = 0.00001
-    fx = lambda x: fcn(x)[1]
-    while abs(x0-x1) > tol:   
-        d = (x0+x1)/2.0,
-     
-        if fx(x0)*fx(x1) < 0:
+    tol = 0.0000000000001
+    fx = lambda x: fcn(x)[1] - E 
+    while abs(x0-x1)> tol:   
+        d = (x0+x1)/2.0
+        if (fx(x0)*fx(d)) < 0:
             x1 = d
         else:
-            x0 = d
-
-            
+            x0 = d 
+    if sun_angle.sun_azel(d)[0]<200:
+        return BisectionMethod(d+tol,24,fcn,E)    
     return d
 
 
@@ -85,13 +83,13 @@ print 'Elevation angle is', E, 'degrees'
 
 # ## Call the solver to find h
 #h = SecantMethod(0,24,sun_angle.sun_azel)
-h= BisectionMethod(-24,24,sun_angle.sun_azel, E)
+h= BisectionMethod(0,24,sun_angle.sun_azel, E)
 print "Hours: ", h
 
-'''
+
 azel = sun_angle.sun_azel(h)   # h=18 is 6:00pm
 print 'Azimuth A =', azel[0], ', Elevation E =', azel[1]
-'''
+
 
 # In[ ]:
 
